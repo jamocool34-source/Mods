@@ -1,6 +1,209 @@
 <!DOCTYPE html>
-<html>
-  <body>
-    <h1>Welcome to my GitHub Page!</h1>
-  </body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stripes Hub</title>
+    <style>
+        :root {
+            --bg-color: #0d0d12;
+            --card-bg: #16161f;
+            --accent-color: #ff4757;
+            --text-main: #ffffff;
+            --text-sub: #a4a4b5;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Music Controls */
+        .music-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            border: 1px solid var(--text-sub);
+            color: var(--text-sub);
+            padding: 5px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        /* Gate overlay wrapper */
+        #entry-gate {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            cursor: pointer;
+        }
+        .gate-text {
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            animation: pulse 1.5s infinite;
+        }
+
+        /* Main Container Layout */
+        .container {
+            width: 100%;
+            max-width: 480px;
+            padding: 20px;
+            text-align: center;
+            box-sizing: border-box;
+            display: none; /* Hidden until enter clicked */
+        }
+
+        .profile-img {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            border: 2px solid var(--accent-color);
+            margin-bottom: 15px;
+        }
+
+        h1 { font-size: 1.8rem; margin: 5px 0; }
+        .subtitle { color: var(--text-sub); margin-bottom: 25px; font-size: 0.95rem; }
+
+        /* Gated Action Box */
+        .verification-box {
+            background: var(--card-bg);
+            border: 1px solid #262636;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        .verification-box h3 { margin-top: 0; color: var(--accent-color); }
+
+        /* Action Buttons */
+        .btn {
+            display: block;
+            background: var(--card-bg);
+            color: var(--text-main);
+            text-decoration: none;
+            padding: 14px;
+            margin: 12px 0;
+            border-radius: 8px;
+            border: 1px solid #262636;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        .btn:hover {
+            border-color: var(--accent-color);
+            background: #1c1c27;
+            transform: translateY(-2px);
+        }
+        .btn-primary {
+            background: var(--accent-color);
+        }
+        .btn-primary:hover {
+            background: #ff6b7b;
+            border-color: #ff6b7b;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.4; }
+            50% { opacity: 1; }
+            100% { opacity: 0.4; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Click to Enter Screen -->
+    <div id="entry-gate" onclick="enterSite()">
+        <div class="gate-text">Click to Enter...</div>
+    </div>
+
+    <button class="music-toggle" onclick="toggleMusic()">Music Off</button>
+
+    <!-- Main Content Hub -->
+    <div class="container" id="main-hub">
+        <!-- Replace with your own avatar image path if you upload one -->
+        <img src="https://placeholder.com" alt="Profile" class="profile-img">
+        
+        <h1>stripes.lol clone</h1>
+        <div class="subtitle">Modding & Standalone Hub</div>
+
+        <!-- Verification Gate System -->
+        <div class="verification-box">
+            <h3>Attention Needed</h3>
+            <p style="color: var(--text-sub); font-size: 0.9rem; margin-bottom: 15px;">
+                Please Subscribe to my channel before continuing to my site.
+            </p>
+            <a href="https://youtube.com" target="_blank" class="btn btn-primary" onclick="markSubscribed()">
+                1. Subscribe on YouTube
+            </a>
+            <button class="btn" style="width:100%; cursor:pointer;" onclick="checkVerification()">
+                2. Check Verification
+            </button>
+        </div>
+
+        <!-- Download Directories / Links -->
+        <div id="links-section" style="opacity: 0.5; pointer-events: none;">
+            <div style="text-align: left; margin: 20px 0 10px 5px; color: var(--text-sub); font-size: 0.85rem; font-weight: bold; text-transform: uppercase;">
+                Available Downloads
+            </div>
+            <a href="#" class="btn">Frida Tools (Required)</a>
+            <a href="#" class="btn">StripesADB Standalone</a>
+            <a href="#" class="btn">Gorilla Tag Mods Menu</a>
+            <a href="#" class="btn">Delta ADB Exploits</a>
+        </div>
+    </div>
+
+    <!-- Audio Element Placeholder -->
+    <audio id="bg-music" loop src="https://soundhelix.com"></audio>
+
+    <script>
+        const music = document.getElementById('bg-music');
+        const toggleBtn = document.querySelector('.music-toggle');
+        let isSubscribed = false;
+
+        function enterSite() {
+            document.getElementById('entry-gate').style.display = 'none';
+            document.getElementById('main-hub').style.display = 'block';
+            // Start background music loop safely after interaction
+            music.play().catch(() => {});
+            toggleBtn.textContent = "Music On";
+        }
+
+        function toggleMusic() {
+            if (music.paused) {
+                music.play();
+                toggleBtn.textContent = "Music On";
+            } else {
+                music.pause();
+                toggleBtn.textContent = "Music Off";
+            }
+        }
+
+        function markSubscribed() {
+            isSubscribed = true;
+        }
+
+        function checkVerification() {
+            if (isSubscribed) {
+                alert("Verification Successful! Access Granted.");
+                const links = document.getElementById('links-section');
+                links.style.opacity = "1";
+                links.style.pointerEvents = "auto";
+            } else {
+                alert("Please complete step 1 before checking status!");
+            }
+        }
+    </script>
+</body>
 </html>
